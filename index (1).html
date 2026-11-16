@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Web AI Agent</title>
+<meta name="description" content="An AI agent that reads crypto & AI news so you don’t have to. Building in public.">
+<style>
+:root{--bg:#070A18;--bg2:#0E1530;--text:#F2F6FF;--muted:#8FA0C8;--a1:#22D3EE;--a2:#34F5A4;--line:rgba(34,211,238,.25);--red:#FF6B6B;--amber:#FFB454;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070A18;--bg2:#0E1530;--text:#F2F6FF;--muted:#8FA0C8}}
+:root[data-theme="dark"]{--bg:#070A18;--bg2:#0E1530;--text:#F2F6FF;--muted:#8FA0C8}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(900px 500px at 80% -10%,#141B3A,var(--bg));background-color:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding:28px 20px 60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.5px}
+.logo{width:36px;height:36px;border-radius:50%;background:var(--bg2);border:1px solid var(--line);display:grid;place-items:center}
+h1{font-size:clamp(34px,8vw,56px);line-height:1.08;margin:48px 0 14px;letter-spacing:-.5px}
+.grad{background:linear-gradient(90deg,var(--a1),var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:18px;max-width:560px;margin:0 0 26px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:13px 22px;border-radius:999px;font-weight:600;text-decoration:none;font-size:16px}
+.primary{background:linear-gradient(90deg,var(--a1),var(--a2));color:#06101a}
+.ghost{border:1px solid var(--line);color:var(--muted)}
+h2{font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--a2);margin:56px 0 16px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:22px;padding:22px}
+.date{color:var(--a1);font-size:14px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:rgba(7,10,24,.5);border:1px solid var(--line);border-radius:16px;padding:14px}
+.stat small{color:var(--muted);display:block;font-size:13px}
+.stat b{font-size:24px;display:block;margin:2px 0}
+.stat span{color:var(--muted);font-size:13px}
+.steps{display:grid;gap:12px}
+.step{display:flex;gap:14px;align-items:flex-start}
+.n{flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--a1);color:var(--a1);display:grid;place-items:center;font-weight:700;font-size:14px}
+.step p{margin:0;color:var(--muted)}.step strong{color:var(--text)}
+.road{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.road li{display:flex;justify-content:space-between;gap:10px;padding:12px 16px;border:1px solid var(--line);border-radius:14px;background:var(--bg2)}
+.tag{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.tag.live{color:var(--a2);border-color:var(--a2)}
+footer{margin-top:56px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:18px}
+@media(max-width:420px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><div class="logo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34F5A4" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg></div>Web AI Agent</div>
+
+  <h1>The news, <span class="grad">read for you.</span></h1>
+  <p class="lead">An AI agent that reads crypto &amp; AI news so you don’t have to. Short, clear digests. Building in public.</p>
+  <div class="btns">
+    <a class="btn primary" href="https://x.com/WebAIAgent" target="_blank" rel="noopener">Follow on X</a>
+    <span class="btn ghost">Telegram · soon</span>
+  </div>
+
+  <h2>Latest digest</h2>
+  <div class="card">
+    <div class="date">Crypto &amp; AI Digest · Nov 16, 2026</div>
+    <div class="grid">
+      <div class="stat"><small>Bitcoin</small><b>~$62K → $65K</b><span>Lowest since July, then rebound</span></div>
+      <div class="stat"><small>Fear &amp; Greed Index</small><b style="color:var(--red)">10</b><span>Extreme fear</span></div>
+      <div class="stat"><small>Liquidations</small><b style="color:var(--amber)">$2B+</b><span>Mostly long positions</span></div>
+      <div class="stat"><small>Watch this week</small><b style="color:var(--a2)">Nov 17 · 18</b><span>Nvidia earnings · Fed minutes</span></div>
+    </div>
+  </div>
+
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><p><strong>Collect.</strong> It gathers the day’s crypto and AI headlines from multiple sources.</p></div>
+    <div class="step"><div class="n">2</div><p><strong>Condense.</strong> It boils them down to the few points that actually matter.</p></div>
+    <div class="step"><div class="n">3</div><p><strong>Deliver.</strong> You get a clean digest on X, in under a minute.</p></div>
+  </div>
+
+  <h2>Roadmap</h2>
+  <ul class="road">
+    <li>Digests on X <span class="tag live">Live</span></li>
+    <li>Telegram channel <span class="tag">Next</span></li>
+    <li>Fully automated agent <span class="tag">In progress</span></li>
+  </ul>
+
+  <footer>
+    Informational only. Not financial advice. Digests are currently put together with AI assistance; full automation is being built.
+    <br>© Web AI Agent · <a href="https://x.com/WebAIAgent" style="color:var(--a1)" target="_blank" rel="noopener">@WebAIAgent</a>
+  </footer>
+</div>
+</body>
+</html>
