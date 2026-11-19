@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WebAI Agent | Solana Infrastructure</title>
+<meta name="description" content="A real-time Solana data pipeline, built in public.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23071018' stroke='%2319f0a0' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%2319f0a0'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#05070d;--panel:#0b111d;--line:rgba(25,240,160,.16);--g:#19f0a0;--p:#8b5cf6;--t:#e8ecf5;--m:#8a94ab;color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+header{position:fixed;top:0;left:0;right:0;z-index:20;background:linear-gradient(#05070dcc,#05070d00);backdrop-filter:blur(6px)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:62px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--g);box-shadow:0 0 12px var(--g);animation:pulse 2s infinite}
+.pill{font-size:11px;letter-spacing:.06em;color:var(--g);border:1px solid var(--line);border-radius:99px;padding:5px 12px;background:#05070d99}
+/* hero room */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:90px 0 54px;overflow:hidden;isolation:isolate}
+#fx{position:absolute;inset:0;z-index:-3;width:100%;height:100%}
+.glow{position:absolute;left:50%;top:26%;width:140vw;height:70vw;max-width:900px;max-height:520px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(25,240,160,.16),transparent);z-index:-2}
+.floor{position:absolute;left:-60%;right:-60%;bottom:0;height:46%;z-index:-2;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;transform:perspective(420px) rotateX(64deg);transform-origin:bottom;-webkit-mask-image:linear-gradient(to top,#000 10%,transparent 85%);mask-image:linear-gradient(to top,#000 10%,transparent 85%);animation:slide 5s linear infinite}
+.stage{position:relative;height:230px;display:grid;place-items:center;margin-bottom:8px}
+.core{position:relative;width:132px;height:132px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#9dffd9,#19f0a0 32%,#0b7a5c 68%,#03160f);box-shadow:0 0 60px rgba(25,240,160,.45),inset 0 -14px 30px rgba(0,0,0,.45);animation:float 5s ease-in-out infinite}
+.visor{position:absolute;left:50%;top:44%;width:74px;height:22px;transform:translate(-50%,-50%);background:#03120d;border-radius:12px;display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:inset 0 0 8px #000}
+.visor i{display:block;width:12px;height:6px;border-radius:4px;background:var(--g);box-shadow:0 0 8px var(--g);animation:blink 5s infinite;transition:transform .15s}
+.ring{position:absolute;border-radius:50%;border:1px solid rgba(25,240,160,.35);animation:spin 16s linear infinite}
+.r1{inset:-34px}.r2{inset:-62px;border-style:dashed;border-color:rgba(139,92,246,.4);animation-duration:26s;animation-direction:reverse}
+.r1::after{content:"";position:absolute;top:-4px;left:50%;width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 10px var(--g)}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;color:var(--g);margin-bottom:14px}
+h1{font-size:clamp(34px,8.4vw,60px);line-height:1.1;letter-spacing:-.02em;margin-bottom:16px}
+h1 span{background:linear-gradient(90deg,#7dffd0,var(--g));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--m);max-width:620px;margin-bottom:26px}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{padding:13px 20px;border-radius:12px;font-weight:600;font-size:15px;border:1px solid var(--line);background:var(--panel);transition:.2s}
+.btn:hover{border-color:var(--g)}
+.btn.main{background:var(--g);color:#03130d;border-color:var(--g)}
+.cue{margin-top:30px;font-size:12px;color:var(--m);letter-spacing:.1em}
+/* sections */
+section{padding:56px 0}
+.zone{font-size:12px;color:var(--g);letter-spacing:.12em;margin-bottom:8px}
+h2{font-size:26px;margin-bottom:18px;letter-spacing:-.01em}
+.term{background:#070c15;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 0 40px rgba(25,240,160,.06)}
+.bar{display:flex;gap:7px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line);color:var(--m);font-size:12px}
+.bar b{width:9px;height:9px;border-radius:50%;background:#1a2336}
+.bar span{margin-left:8px}
+#log{padding:16px;min-height:236px;font-size:13.5px;line-height:1.85;color:#b9f5dc;white-space:pre-wrap;word-break:break-word}
+#log em{font-style:normal;color:var(--m)}
+.caret{display:inline-block;width:8px;height:15px;background:var(--g);vertical-align:-2px;animation:blink2 1s steps(1) infinite}
+.grid{display:grid;gap:14px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;transition:.25s}
+.card:hover{transform:translateY(-4px);border-color:rgba(25,240,160,.5);box-shadow:0 10px 40px rgba(25,240,160,.08)}
+.ico{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:rgba(25,240,160,.08);border:1px solid var(--line);color:var(--g);margin-bottom:14px}
+.card h3{font-size:17px;margin-bottom:6px}
+.card p{color:var(--m);font-size:14.5px}
+.tl{position:relative;padding-left:30px}
+.tl::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:1px;background:linear-gradient(var(--g),var(--line))}
+.it{position:relative;margin-bottom:22px}
+.it::before{content:"";position:absolute;left:-27px;top:7px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--m)}
+.it.on::before{border-color:var(--g);background:var(--g);box-shadow:0 0 0 0 rgba(25,240,160,.6);animation:ping 2s infinite}
+.it.wip::before{border-color:var(--g);animation:ping 2s infinite}
+.st{display:inline-block;font-size:11px;letter-spacing:.06em;padding:3px 10px;border-radius:7px;margin-bottom:6px;border:1px solid var(--line);color:var(--g);background:rgba(25,240,160,.07)}
+.st.pl{color:#b6a2ff;border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.08)}
+.it h3{font-size:17px}.it p{color:var(--m);font-size:14.5px}
+footer{border-top:1px solid var(--line);padding:34px 0 48px;text-align:center;color:var(--m);font-size:13px}
+footer p+p{margin-top:8px;font-size:12px;opacity:.8}
+.rv{opacity:0;transform:translateY(18px);transition:.7s}.rv.in{opacity:1;transform:none}
+@keyframes slide{to{background-position:0 46px}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{50%{transform:translateY(-10px)}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes blink2{50%{opacity:0}}
+@keyframes pulse{50%{opacity:.4}}
+@keyframes ping{70%{box-shadow:0 0 0 9px rgba(25,240,160,0)}100%{box-shadow:0 0 0 0 rgba(25,240,160,0)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="brand"><span class="dot"></span>WebAI Agent</div><span class="pill mono">SOLANA INFRASTRUCTURE</span></div></header>
+
+<div class="hero">
+  <canvas id="fx"></canvas><div class="glow"></div><div class="floor"></div>
+  <div class="wrap">
+    <div class="stage"><div class="core" id="core"><div class="ring r1"></div><div class="ring r2"></div><div class="visor"><i></i><i></i></div></div></div>
+    <div class="tag mono">AGENT ROOM / ALPHA v0.3</div>
+    <h1>Autonomous Intelligence <span>Meets Solana.</span></h1>
+    <p class="sub">Independent infrastructure engineered to process on-chain data streams and turn raw network activity into structured, verifiable signals.</p>
+    <div class="btns">
+      <a class="btn main" href="https://x.com/WebAIAgent" target="_blank" rel="noopener">Follow on X</a>
+      <a class="btn" href="https://t.me/WebAIAgent" target="_blank" rel="noopener">Join Telegram</a>
+      <a class="btn" href="litepaper.pdf">Read Litepaper</a>
+    </div>
+    <div class="cue mono">SCROLL TO ENTER</div>
+  </div>
+</div>
+
+<section><div class="wrap rv">
+  <div class="zone mono">ZONE 01 / CONSOLE</div><h2>Inside the room</h2>
+  <div class="term"><div class="bar mono"><b></b><b></b><b></b><span>webai-agent // status</span></div><div id="log" class="mono"></div></div>
+</div></section>
+
+<section><div class="wrap rv">
+  <div class="zone mono">ZONE 02 / MODULES</div><h2>What the agent does</h2>
+  <div class="grid">
+    <div class="card"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></div><h3>Real-Time Telemetry</h3><p>A Solana listener and parser tracking slots, latency and transaction load as the network moves.</p></div>
+    <div class="card"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v5M12 18h.01"/></svg></div><h3>Anomaly Detection</h3><p>Flags latency spikes and transaction surges so unusual activity stands out quickly.</p></div>
+    <div class="card"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div><h3>Transparent by Design</h3><p>Every milestone, test and deployment step is documented and built openly in public.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap rv">
+  <div class="zone mono">ZONE 03 / ROADMAP</div><h2>Deployment phases</h2>
+  <div class="tl">
+    <div class="it on"><span class="st mono">PHASE 01 / LIVE</span><h3>Core Identity &amp; Public Foundation</h3><p>Open communications, public documentation and community channels.</p></div>
+    <div class="it wip"><span class="st mono">PHASE 02 / IN PROGRESS</span><h3>On-Chain Data Pipeline</h3><p>Real-time Solana listener and parser with latency, load and anomaly telemetry. Alpha v0.3.</p></div>
+    <div class="it"><span class="st pl mono">PHASE 03 / PLANNED</span><h3>Agent Layer</h3><p>Connect structured data to reasoning loops and publish open telemetry and modules.</p></div>
+    <div class="it"><span class="st pl mono">PHASE 04 / PLANNED</span><h3>Builder Access</h3><p>Modular APIs and webhooks for external builders on Solana.</p></div>
+    <div class="it"><span class="st pl mono">PHASE 05 / PLANNED</span><h3>Community Token</h3><p>A community token tied to platform access and participation. Full details are published before any launch.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><p>WebAI Agent / Building in public on Solana. No hype. Pure execution.</p>
+<p>Alpha software. Informational only, not financial advice. Official channels: this site, x.com/WebAIAgent, t.me/WebAIAgent.</p></div></footer>
+
+<script>
+(function(){
+var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* particles */
+var c=document.getElementById('fx'),x=c.getContext('2d'),P=[],w,h;
+function size(){var r=c.getBoundingClientRect();w=c.width=r.width;h=c.height=r.height}
+size();addEventListener('resize',size);
+for(var i=0;i<46;i++)P.push({x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.0003,vy:(Math.random()-.5)*.0003});
+function draw(){x.clearRect(0,0,w,h);
+ for(var i=0;i<P.length;i++){var a=P[i];a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>1)a.vx*=-1;if(a.y<0||a.y>1)a.vy*=-1;
+  x.fillStyle='rgba(25,240,160,.55)';x.beginPath();x.arc(a.x*w,a.y*h,1.4,0,6.3);x.fill();
+  for(var j=i+1;j<P.length;j++){var b=P[j],dx=(a.x-b.x)*w,dy=(a.y-b.y)*h,d=Math.sqrt(dx*dx+dy*dy);
+   if(d<110){x.strokeStyle='rgba(25,240,160,'+(.14*(1-d/110))+')';x.beginPath();x.moveTo(a.x*w,a.y*h);x.lineTo(b.x*w,b.y*h);x.stroke()}}}
+ if(!rm)requestAnimationFrame(draw)}
+draw();
+/* eyes follow pointer */
+var eyes=document.querySelectorAll('.visor i');
+addEventListener('pointermove',function(e){var dx=(e.clientX/innerWidth-.5)*8,dy=(e.clientY/innerHeight-.5)*4;
+ eyes.forEach(function(el){el.style.transform='translate('+dx+'px,'+dy+'px)'})});
+/* reveal + console typing */
+var L=['> boot webai-agent --room','> network      : solana mainnet-beta','> pipeline     : v0.3-alpha','> listener     : alpha','> modules      : telemetry, anomaly + tx-surge parser','> phase 01     : live','> phase 02     : in progress','> status       : building in public'];
+var log=document.getElementById('log'),started=false;
+function type(){started=true;var li=0,ci=0,out='';
+ (function step(){if(li>=L.length){log.innerHTML=out+'<span class="caret"></span>';return}
+  var s=L[li];ci++;var cur=out+s.slice(0,ci);
+  log.innerHTML=cur+'<span class="caret"></span>';
+  if(ci>=s.length){out+=s+'\n';li++;ci=0;setTimeout(step,rm?0:260)}else setTimeout(step,rm?0:16)})()}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');if(e.target.querySelector('#log')&&!started)type()}})},{threshold:.2});
+document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+})();
+</script>
+</body>
+</html>
